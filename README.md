@@ -14,11 +14,11 @@ Current implementation allows downloading shellcode from a github repository usi
 
 By default the program injects into "notepad" using the ALLOCWRITE write method. This can be easily modified by changing line 18 
 ```
-Inject("notepad", osV, ALLOCWRITE);
+Inject(sc, "notepad", osV, ALLOCWRITE);
 ```
 can be changed to 
 ```
-Inject("explorer", osV, OPENSEC);
+Inject(sc, "explorer", osV, OPENSEC);
 ```
 to inject the shellcode into explorer.exe using the NtMapViewOfSection method. 
 ##### ToDo:
