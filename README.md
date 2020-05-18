@@ -6,7 +6,9 @@ Created as a way to learn more about direct syscalls and their implementation in
 
 The program uses direct syscalls to perform the shellcode allocating/injection and the remote thread creation. The only imports are GetSystemInfo, RtlGetVersion and VirtualProtectEx.
 
-The shellcode can be easily generated using tools like donut (https://github.com/TheWover/donut/)
+The shellcode can be easily generated using tools like donut (https://github.com/TheWover/donut/).
+
+Current implementation allows downloading shellcode from a github repository using ssl sockets.
 
 ### Usage: 
 
