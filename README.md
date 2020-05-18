@@ -29,7 +29,10 @@ to inject the shellcode into explorer.exe using the NtMapViewOfSection method.
   - Try to avoid the use of VirtualProtectEx when allocating our shellcode
   - Try catch everything just in case
 
-  
+##### Original POC:
+
+  - https://github.com/fela15/directInjectorPOC
+
 ##### Links of interest:
 
   - https://ired.team/offensive-security/code-injection-process-injection/ntcreatesection-+-ntmapviewofsection-code-injection
