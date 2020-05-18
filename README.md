@@ -11,8 +11,9 @@ The shellcode can be easily generated using tools like donut (https://github.com
 Current implementation allows downloading shellcode from a github repository using ssl sockets.
 
 ### Usage: 
+The first step is to create a github repository and upload a shellcode.bin file containing the shellcode. Then replace the placeholders on line 15 with the corresponding information.
 
-By default the program injects into "notepad" using the ALLOCWRITE write method. This can be easily modified by changing line 18 
+By default the program injects into "notepad" using the ALLOCWRITE write method. This can be easily modified by changing line 17 
 ```
 Inject(sc, "notepad", osV, ALLOCWRITE);
 ```
