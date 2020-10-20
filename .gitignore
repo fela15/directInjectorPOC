@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/directInjectorPOC/v16/Server/sqlite3
+/directInjectorPOC/obj/Debug/67739a24-3847-46ea-934e-38070423d238_directInjectorPOC.pdb
+/directInjectorPOC/obj/Debug
+/directInjectorPOC/bin/Debug
