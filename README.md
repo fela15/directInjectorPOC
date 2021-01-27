@@ -4,9 +4,13 @@ Small program written in C#, compatible with .NET >= v3.5 . Only x64. Works from
 
 Created as a way to learn more about direct syscalls and their implementation in C#. 
 
-The program uses direct syscalls to perform the shellcode allocation/injection and the remote thread creation. The only imports are GetSystemInfo, RtlGetVersion and VirtualProtectEx.
+The program uses direct syscalls to perform the shellcode allocation/injection and the remote thread creation. 
 
 The shellcode can be easily generated using tools like donut (https://github.com/TheWover/donut/)
+
+### Update:
+- Removed the sexy dictionaries that used to contained the syscalls:ssn
+- The binary is now resolving the syscall ssn by using the sorting technique shown at https://www.mdsec.co.uk/2020/12/bypassing-user-mode-hooks-and-direct-invocation-of-system-calls-for-red-teams/
 
 ### Usage: 
 
@@ -30,72 +34,14 @@ The shellcode must be in base64 and assigned to the "s" variable on line 91
 string s = @"/EiB5PD////o0AAAAEFRQVBSUVZIMdJlSItSYD5Ii1IYPkiLUiA+SItyUD5ID7dKSk0xyUgxwKw8YXwCLCBBwckNQQHB4u1SQVE+SItSID6LQjxIAdA+i4CIAAAASIXAdG9IAdBQPotIGD5Ei0AgSQHQ41xI/8k+QYs0iEgB1k0xyUgxwKxBwckNQQHBOOB18T5MA0wkCEU50XXWWD5Ei0AkSQHQZj5BiwxIPkSLQBxJAdA+QYsEiEgB0EFYQVheWVpBWEFZQVpIg+wgQVL/4FhBWVo+SIsS6Un///9dScfBAAAAAD5IjZX+AAAAPkyNhQMBAABIMclBukWDVgf/1UgxyUG68LWiVv/VZ2F0bwBNZXNzYWdlQm94AA==";
 ```
 
-### Dev:
-
-Take a look at syscalls.cs. To create a new syscall:
-- Add the syscall ID to each windows version inside the sysDic dictionary.  
-- Create its function delegate inside the Delegates struct
-- Create a function thar runs GetDelegateForFunctionPointer and invokes the delegate functions (you can just copy paste any of the current ones and change them a little bit to adjust your needs) 
-- If needed, create the required structs inside nativeStructs.cs
-
-For example, if we would like to implement NtClose we can do the following:
-```
-...
-            { "win10-1507", new Dictionary<string, byte>()
-                {
-                    { "openprocess",0x26},
-                    { "allocatevirtualmem", 0x18},
-                    { "writevirtualmem", 0x3A},
-                    { "createremthread", 0xB3},
-                    { "createsection", 0x4A },
-                    { "mapviewofsec", 0x28 },
-                    { "close", 0x0F }
-                }
-            },
-...
-```
-```
-public struct Delegates{
-...
-            [SuppressUnmanagedCodeSecurity]
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            public delegate int NtClose(IntPtr handler);
-...
-```
-```
-        public static NTSTATUS NtClose(IntPtr handle, string os)
-        {
-            byte[] syscall = syscallSkeleton;
-            syscall[4] = sysDic[os]["close"];
-
-            unsafe
-            {
-                fixed (byte* ptr = syscall)
-                {
-
-                    IntPtr memoryAddress = (IntPtr)ptr;
-
-                    if (!VirtualProtectEx(Process.GetCurrentProcess().Handle, memoryAddress,
-                        (UIntPtr)syscall.Length, 0x40, out uint oldprotect))
-                    {
-                        throw new Win32Exception();
-                    }
-
-                    Delegates.NtClose myAssemblyFunction = (Delegates.NtClose)Marshal.GetDelegateForFunctionPointer(memoryAddress, typeof(Delegates.NtClose));
-
-                    return (NTSTATUS)myAssemblyFunction(handle);
-                }
-            }
-        }
-```
 
 ##### ToDo:
 
-  - Implement more ways to write our shellcode in a remote process (process hollowing, dll hollowing, etc)
-  - New execution methods (steal them from pinjectra :) )
-  - Try to avoid the use of VirtualProtectEx when allocating our shellcode
-  - Try catch everything just in case
-
+  - Add thread hijacking
+  - Add more techniques to execute our syscall
+  - Implement a syscall wrapper to prevent writing the syscall bytes directly to memory
+            - Also look into ways to bypass potential manual syscalls detections, like looking where the syscalls returns to. 
+            
   
 ##### Links of interest:
 
