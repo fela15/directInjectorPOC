@@ -1,0 +1,7 @@
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\bin\x64\Debug\directInjectorPOC.exe.config
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\bin\x64\Debug\directInjectorPOC.exe
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\bin\x64\Debug\directInjectorPOC.pdb
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\obj\x64\Debug\directInjectorPOC.csproj.CoreCompileInputs.cache
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\obj\x64\Debug\directInjectorPOC.exe
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\obj\x64\Debug\directInjectorPOC.pdb
+C:\Users\fela_\srdi\directInjectorPOC\directInjectorPOC\obj\x64\Debug\directInjectorPOC.csprojAssemblyReference.cache
